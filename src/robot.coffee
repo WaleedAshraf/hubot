@@ -60,10 +60,8 @@ class Robot
     @globalHttpOptions = {}
 
     @parseVersion()
-    if httpd
-      @setupExpress()
-    else
-      @setupNullRouter()
+    
+    @setupNullRouter()
 
     @loadAdapter adapter
 
