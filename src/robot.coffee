@@ -424,12 +424,20 @@ class Robot
   #   app = express()
 
   #   app.use (req, res, next) =>
+  #     if req.headers['x-forwarded-proto'] != 'https' and env == 'production'
+  #       return res.redirect(301, [
+  #         'https://'
+  #         req.get('Host')
+  #         req.url
+  #       ].join(''))
   #     res.setHeader "X-Powered-By", "hubot/#{@name}"
   #     next()
 
   #   app.use express.basicAuth user, pass if user and pass
   #   app.use express.query()
 
+  #   ## set the view engine to ejs
+  #   app.set('view engine', 'ejs')
 
   #   app.use(bodyParser.urlencoded({
   #       extended: true
