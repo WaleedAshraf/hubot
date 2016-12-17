@@ -49,6 +49,7 @@ class Robot
     @alias      = alias
     @adapter    = null
     @Response   = Response
+    @httdp      = httpd
     @commands   = []
     @listeners  = []
     @middleware =
@@ -455,14 +456,14 @@ class Robot
   #     @logger.error "Error trying to start HTTP server: #{err}\n#{err.stack}"
   #     process.exit(1)
 
-  #   herokuUrl = process.env.HEROKU_URL
+    herokuUrl = process.env.HEROKU_URL
 
-  #   if herokuUrl
-  #     herokuUrl += '/' unless /\/$/.test herokuUrl
-  #     @pingIntervalId = setInterval =>
-  #       HttpClient.create("#{herokuUrl}hubot/ping").post() (err, res, body) =>
-  #         @logger.info 'keep alive ping!'
-  #     , 5 * 60 * 1000
+    if herokuUrl
+      herokuUrl += '/' unless /\/$/.test herokuUrl
+      @pingIntervalId = setInterval =>
+        HttpClient.create("#{herokuUrl}hubot/ping").post() (err, res, body) =>
+          @logger.info 'keep alive ping!'
+      , 5 * 60 * 1000
 
   # Setup an empty router object
   #
