@@ -59,11 +59,11 @@ class Robot
     @pingIntervalId = null
     @globalHttpOptions = {}
 
-    @parseVersion()
-    if httpd
-      @setupExpress()
-    else
-      @setupNullRouter()
+    # @parseVersion()
+    # if httpd
+    #   @setupExpress()
+    # else
+    @setupNullRouter()
 
     @loadAdapter adapter
 
@@ -409,48 +409,48 @@ class Robot
   # Setup the Express server's defaults.
   #
   # Returns nothing.
-  setupExpress: ->
-    user    = process.env.EXPRESS_USER
-    pass    = process.env.EXPRESS_PASSWORD
-    stat    = process.env.EXPRESS_STATIC
-    port    = process.env.EXPRESS_PORT or process.env.PORT or 8080
-    address = process.env.EXPRESS_BIND_ADDRESS or process.env.BIND_ADDRESS or '0.0.0.0'
+  # setupExpress: ->
+  #   user    = process.env.EXPRESS_USER
+  #   pass    = process.env.EXPRESS_PASSWORD
+  #   stat    = process.env.EXPRESS_STATIC
+  #   port    = process.env.EXPRESS_PORT or process.env.PORT or 8080
+  #   address = process.env.EXPRESS_BIND_ADDRESS or process.env.BIND_ADDRESS or '0.0.0.0'
 
-    express = require 'express'
-    multipart = require 'connect-multiparty'
+  #   express = require 'express'
+  #   multipart = require 'connect-multiparty'
 
-    app = express()
+  #   app = express()
 
-    app.use (req, res, next) =>
-      res.setHeader "X-Powered-By", "hubot/#{@name}"
-      next()
+  #   app.use (req, res, next) =>
+  #     res.setHeader "X-Powered-By", "hubot/#{@name}"
+  #     next()
 
-    app.use express.basicAuth user, pass if user and pass
-    app.use express.query()
+  #   app.use express.basicAuth user, pass if user and pass
+  #   app.use express.query()
 
-    app.use express.json()
-    app.use express.urlencoded()
-    # replacement for deprecated express.multipart/connect.multipart
-    # limit to 100mb, as per the old behavior
-    app.use multipart(maxFilesSize: 100 * 1024 * 1024)
+  #   app.use express.json()
+  #   app.use express.urlencoded()
+  #   # replacement for deprecated express.multipart/connect.multipart
+  #   # limit to 100mb, as per the old behavior
+  #   app.use multipart(maxFilesSize: 100 * 1024 * 1024)
 
-    app.use express.static stat if stat
+  #   app.use express.static stat if stat
 
-    try
-      @server = app.listen(port, address)
-      @router = app
-    catch err
-      @logger.error "Error trying to start HTTP server: #{err}\n#{err.stack}"
-      process.exit(1)
+  #   try
+  #     @server = app.listen(port, address)
+  #     @router = app
+  #   catch err
+  #     @logger.error "Error trying to start HTTP server: #{err}\n#{err.stack}"
+  #     process.exit(1)
 
-    herokuUrl = process.env.HEROKU_URL
+  #   herokuUrl = process.env.HEROKU_URL
 
-    if herokuUrl
-      herokuUrl += '/' unless /\/$/.test herokuUrl
-      @pingIntervalId = setInterval =>
-        HttpClient.create("#{herokuUrl}hubot/ping").post() (err, res, body) =>
-          @logger.info 'keep alive ping!'
-      , 5 * 60 * 1000
+  #   if herokuUrl
+  #     herokuUrl += '/' unless /\/$/.test herokuUrl
+  #     @pingIntervalId = setInterval =>
+  #       HttpClient.create("#{herokuUrl}hubot/ping").post() (err, res, body) =>
+  #         @logger.info 'keep alive ping!'
+  #     , 5 * 60 * 1000
 
   # Setup an empty router object
   #
