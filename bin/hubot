@@ -2,6 +2,7 @@
 # vim:ft=coffee ts=2 sw=2 et :
 # -*- mode:coffee -*-
 
+require 'newrelic'
 Hubot    = require '..'
 
 Fs       = require 'fs'

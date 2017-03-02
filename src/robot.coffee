@@ -4,7 +4,6 @@ Path           = require 'path'
 HttpClient     = require 'scoped-http-client'
 {EventEmitter} = require 'events'
 async          = require 'async'
-require 'newrelic'
 
 User = require './user'
 Brain = require './brain'
